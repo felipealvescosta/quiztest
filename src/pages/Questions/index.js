@@ -59,7 +59,7 @@ const Questions = () => {
             }
         }
 
-        if (nextQuestion === 9) {
+        if (nextQuestion === 1) {
             setQuizEnded(true);
         }
     }
@@ -80,7 +80,9 @@ const Questions = () => {
             .database()
             .ref('answers')
             .child(token)
+            .child('category')
             .child(category)
+            .child('anwser')
             .child(nextQuestion)
             .set({
                 answer,
