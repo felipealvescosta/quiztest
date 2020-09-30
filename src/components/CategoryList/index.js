@@ -1,25 +1,11 @@
-import React from 'react';
-import firebase from '../../service/firebase';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 const CategoryList = ({ categories }) => {
-    const handleCreateSesssion = (category) => {
-        const token = localStorage.getItem('@token/webtest');
-        firebase
-            .database()
-            .ref('answers')
-            .child(token)
-            .child('category')
-            .set(category);
-    };
-
     return (
         <ul>
             {categories.map((category) => (
-                <li
-                    key={category.id}
-                    onClick={() => handleCreateSesssion(category.id)}
-                >
+                <li key={category.id}>
                     <Link to={`category/` + category.id}>
                         {category.name}
                     </Link>
@@ -29,4 +15,4 @@ const CategoryList = ({ categories }) => {
     );
 };
 
-export default CategoryList;
+export default memo(CategoryList);
