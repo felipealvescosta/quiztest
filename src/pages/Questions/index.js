@@ -1,8 +1,6 @@
 import React, { useState, useEffect, memo } from 'react';
-import { useDispatch } from 'react-redux';
-
 import { Link, useParams } from 'react-router-dom';
-
+import firebase from '../../service/firebase';
 import api from '../../service/api';
 
 import Question from '../../components/Question';
@@ -14,7 +12,6 @@ const Questions = () => {
     const [difficultyCount, setDifficultyCount] = useState(1);
     const [quizEnded, setQuizEnded] = useState(false);
     const { category } = useParams();
-    const dispatch = useDispatch();
 
     useEffect(() => {
         api.get('api.php', {
@@ -72,6 +69,7 @@ const Questions = () => {
                 break;
         }
     };
+
     const changeDifficultyDown = () => {
         console.log('mudoy pra baixo');
         switch (difficulty) {
