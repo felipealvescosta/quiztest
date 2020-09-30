@@ -8,7 +8,7 @@ function Routes() {
         <BrowserRouter>
             <Route path="/" exact component={Categories} />
             <Route
-                path="/questions/:category"
+                path="/category/:category"
                 exact
                 component={Questions}
             />

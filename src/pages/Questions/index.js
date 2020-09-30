@@ -9,17 +9,19 @@ import Question from '../../components/Question';
 
 const Questions = () => {
     const [questions, setQuestions] = useState([]);
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [nextQuestion, setNextQuestion] = useState(0);
+    const [difficulty, setDifficulty] = useState('easy');
+    const [difficultyCount, setDifficultyCount] = useState(1);
     const [quizEnded, setQuizEnded] = useState(false);
-    const [score, setScore] = useState(0);
     const { category } = useParams();
     const dispatch = useDispatch();
 
     useEffect(() => {
         api.get('api.php', {
             params: {
-                amount: 10,
-                category: category,
+                amount: 1,
+                category,
+                difficulty: difficulty,
                 type: 'multiple',
             },
         })
@@ -27,42 +29,73 @@ const Questions = () => {
                 setQuestions(response.data.results);
             })
             .catch((error) => {
-                // handle error
                 console.log(error);
             });
-    }, []);
+    }, [nextQuestion, difficulty, category]);
 
     const handleAnswer = (answer) => {
-        const difficult = questions[currentIndex].difficulty;
-        const questionIndex = currentIndex + 1;
-        setCurrentIndex(questionIndex);
+        setNextQuestion(nextQuestion + 1);
 
-        console.log(questionIndex);
-        console.log(difficult);
-
-        if (answer === questions[currentIndex].correct_answer) {
-            setScore(score + 1);
-            console.log('yessss');
-            dispatch({
-                type: 'NEW_SCORE',
-                score: difficult,
-            });
+        console.log('DifficultyCount:' + difficultyCount);
+        if (answer === questions[0].correct_answer) {
+            setDifficultyCount(difficultyCount + 1);
+            console.log('acertei' + difficultyCount);
+            if (difficultyCount === 2) {
+                setDifficultyCount(1);
+                changeDifficultyUp();
+            }
+        } else {
+            setDifficultyCount(difficultyCount - 1);
+            console.log('errei' + difficultyCount);
+            if (difficultyCount === 0) {
+                setDifficultyCount(1);
+                changeDifficultyDown();
+            }
         }
 
-        if (questionIndex >= questions.length) {
+        if (nextQuestion === 9) {
             setQuizEnded(true);
+        }
+    };
+
+    const changeDifficultyUp = () => {
+        console.log('subiu');
+        switch (difficulty) {
+            case 'easy':
+                setDifficulty('medium');
+                break;
+            case 'medium':
+                setDifficulty('hard');
+                break;
+            default:
+                setDifficulty(difficulty);
+                break;
+        }
+    };
+    const changeDifficultyDown = () => {
+        console.log('mudoy pra baixo');
+        switch (difficulty) {
+            case 'hard':
+                setDifficulty('medium');
+                break;
+            case 'medium':
+                setDifficulty('easy');
+                break;
+            default:
+                setDifficulty(difficulty);
+                break;
         }
     };
 
     return quizEnded ? (
         <div>
-            <h1>Game Finally</h1>
+            <h1>Quiz Finally</h1>
             <Link to="/"> Home</Link>
         </div>
     ) : questions.length > 0 ? (
         <div className="container">
             <Question
-                data={questions[currentIndex]}
+                data={questions[0]}
                 handleAnswer={handleAnswer}
             />
         </div>
