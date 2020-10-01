@@ -5,6 +5,7 @@ import firebase from '../../service/firebase';
 function ShowScore() {
     const [token, setToken] = useState();
     const [answers, setAnswers] = useState([]);
+
     useEffect(() => {
         function loadToken() {
             setToken(localStorage.getItem('@token/webtest'));
@@ -15,21 +16,16 @@ function ShowScore() {
             .database()
             .ref('answers')
             .on('value', (snapshot) => {
-                let list = [];
-                snapshot.forEach((childItem) => {
-                    list.push(snapshot.val());
-                });
-                setAnswers(list);
+                if (snapshot.val() != null)
+                    setAnswers({
+                        ...snapshot.val(),
+                    });
             });
     }, []);
-    let second = [];
-    answers.forEach((qes, index) => {
-        second = qes[index].category;
-    });
 
     return (
         <div>
-            <h1>Quiz Finally{token}</h1>
+            <h1>Quiz Finally</h1>
 
             <Link to="/"> Home</Link>
         </div>

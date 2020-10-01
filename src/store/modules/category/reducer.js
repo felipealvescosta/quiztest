@@ -1,15 +1,14 @@
 import produce from 'immer';
-
-const category = (state = [], action) => {
+function category(state = [], action) {
     switch (action.type) {
         case 'ADD_CATEGORY':
             return produce(state, (draft) => {
                 draft.push(action.category);
-                console.log('aqui' + state);
+                draft.push(action.score);
             });
         default:
             return state;
     }
-};
+}
 
 export default category;
