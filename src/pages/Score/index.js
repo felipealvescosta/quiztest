@@ -9,14 +9,7 @@ function Score() {
     console.log(scores);
 
     useEffect(() => {
-        let getId = (item) => {
-            console.log(item);
-            return item === id;
-        };
-
-        let scorePlay = scores.map(getId);
-
-        console.log('aqui' + scorePlay);
+        
     }, []);
 
     return (
