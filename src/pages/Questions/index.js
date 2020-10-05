@@ -6,12 +6,19 @@ import firebase from '../../service/firebase';
 import api from '../../service/api';
 
 import Question from '../../components/Question';
+import Header from '../../components/Header';
+import Modal from '../../components/Modal';
+
+import Loading from '../../assets/images/loading.gif';
+
+import './styles.css';
 
 const Questions = () => {
     const [questions, setQuestions] = useState([]);
     const [nextQuestion, setNextQuestion] = useState(0);
-    const [difficulty, setDifficulty] = useState('easy');
+    const [difficulty, setDifficulty] = useState('medium');
     const [difficultyCount, setDifficultyCount] = useState(1);
+    const [open, setOpen] = useState(false);
     const [score, setScore] = useState({
         easy: {
             correct: 0,
@@ -32,30 +39,33 @@ const Questions = () => {
     const token = localStorage.getItem('@token/webtest');
 
     useEffect(() => {
-        api.get('api.php', {
-            params: {
-                amount: 1,
-                category,
-                difficulty: difficulty,
-                type: 'multiple',
-            },
-        })
-            .then((response) => {
-                setQuestions(response.data.results);
+        if (category <= 0 || category == null) {
+            history.push('/');
+        } else {
+            api.get('api.php', {
+                params: {
+                    amount: 1,
+                    category,
+                    difficulty: difficulty,
+                    type: 'multiple',
+                },
             })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, [nextQuestion, difficulty, category]);
+                .then((response) => {
+                    setQuestions(response.data.results);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    history.push('/');
+                });
+        }
+        setOpen(false);
+    }, []);
+
     function handleAnswer(answer) {
         let is_correct = true;
-        setNextQuestion(nextQuestion + 1);
 
-        console.log('DifficultyCount:' + difficultyCount);
         if (answer === questions[0].correct_answer) {
             setDifficultyCount(difficultyCount + 1);
-            console.log('acertei' + difficultyCount);
-            scoreCounter(is_correct);
             saveQuestion(answer, is_correct);
             if (difficultyCount === 2) {
                 setDifficultyCount(1);
@@ -63,20 +73,27 @@ const Questions = () => {
             }
         } else {
             setDifficultyCount(difficultyCount - 1);
-            console.log('errei' + difficultyCount);
             is_correct = false;
-            scoreCounter(is_correct);
             saveQuestion(answer, is_correct);
             if (difficultyCount === 0) {
                 setDifficultyCount(1);
                 changeDifficultyDown();
             }
         }
+        scoreCounter(is_correct);
 
-        if (nextQuestion === 0) {
+        if (nextQuestion === 1) {
             addCategory(category);
             history.push(`/score/${category}`);
+        } else {
+            nextAnswer();
         }
+    }
+
+    function nextAnswer() {
+        console.log(nextQuestion, open);
+        setOpen(true);
+        setNextQuestion((oldState) => oldState + 1);
     }
 
     function scoreCounter(is_correct) {
@@ -84,26 +101,14 @@ const Questions = () => {
         if (is_correct === true) {
             countscore[difficulty].correct++;
             setScore(countscore);
-            console.log(score);
         } else {
             countscore[difficulty].incorrect++;
             setScore(countscore);
-            console.log(score);
         }
     }
 
     function saveQuestion(answer, is_correct) {
         let correct_answer = questions[0].correct_answer;
-
-        console.log(
-            'aqui',
-            token,
-            category,
-            answer,
-            difficulty,
-            correct_answer,
-            is_correct
-        );
         firebase
             .database()
             .ref('answers')
@@ -120,7 +125,6 @@ const Questions = () => {
     }
 
     function changeDifficultyUp() {
-        console.log('subiu');
         switch (difficulty) {
             case 'easy':
                 setDifficulty('medium');
@@ -135,7 +139,6 @@ const Questions = () => {
     }
 
     function changeDifficultyDown() {
-        console.log('mudoy pra baixo');
         switch (difficulty) {
             case 'hard':
                 setDifficulty('medium');
@@ -152,21 +155,24 @@ const Questions = () => {
     function addCategory(category) {
         dispatch({
             type: 'ADD_CATEGORY',
-            category,
-            score,
+            category: { id: category, score },
         });
     }
 
     return questions.length > 0 ? (
         <div className="container">
+            <Header />
+            <h1 id="questions">Question {nextQuestion + 1} of 10</h1>
             <Question
                 data={questions[0]}
                 handleAnswer={handleAnswer}
             />
+            {open && <Modal />}
         </div>
     ) : (
         <div className="loading">
-            <h1>Loading ...</h1>
+            <img src={Loading} alt="Loading" />
+            <h2>loading ...</h2>
         </div>
     );
 };

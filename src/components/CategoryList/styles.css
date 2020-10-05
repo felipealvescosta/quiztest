@@ -1,0 +1,48 @@
+.categories {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    font-family: 'Source Sans Pro';
+}
+
+.categories h1 {
+    margin-top: 30px;
+}
+
+.categories li {
+    background-color: var(--color-bg-list);
+    cursor: pointer;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 13px 32px;
+    text-decoration: none;
+    list-style: none;
+    width: 30em;
+
+    border-radius: 8px 8px 8px 8px;
+    -moz-border-radius: 8px 8px 8px 8px;
+    -webkit-border-radius: 8px 8px 8px 8px;
+    border: 1px solid var(--color-primary);
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px 20px 20px 20px;
+}
+.categories li:hover {
+    background-color: #e6e6e6;
+}
+.categories li:active {
+    position: relative;
+    top: 1px;
+}
+
+@media (min-width: 300px) {
+    .categories li {
+        width: auto;
+        margin: 20px 20px 20px 20px;
+        padding: 20px 20px 20px 20px;
+    }
+}

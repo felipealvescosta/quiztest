@@ -1,0 +1,29 @@
+.header {
+    height: 120px;
+    background-color: var(--color-primary);
+    color: var(--color-text-white);
+}
+
+.header img {
+    float: center;
+    padding: 12px;
+    height: 70px;
+}
+
+.header-left {
+    float: center;
+    color: white;
+    padding: 10px 10px;
+}
+
+@media screen and (max-width: 300px) {
+    .header img {
+        float: none;
+        display: block;
+    }
+
+    .header-left {
+        float: left;
+        padding: 10px 10px;
+    }
+}

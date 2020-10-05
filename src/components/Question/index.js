@@ -1,8 +1,19 @@
 import React, { memo } from 'react';
 
+import './styles.css';
+import easy from '../../assets/images/easy.png';
+import medium from '../../assets/images/medium.png';
+import hard from '../../assets/images/hard.png';
+
 const Question = ({
     handleAnswer,
-    data: { question, correct_answer, incorrect_answers, difficulty },
+    data: {
+        question,
+        correct_answer,
+        incorrect_answers,
+        difficulty,
+        category,
+    },
 }) => {
     const shuffledAnswers = [
         correct_answer,
@@ -12,18 +23,25 @@ const Question = ({
     return (
         <>
             <div className="answer">
+                <p
+                    id="category"
+                    dangerouslySetInnerHTML={{ __html: category }}
+                />
                 <h3 dangerouslySetInnerHTML={{ __html: question }} />
-                <small>{difficulty}</small>
+                <div className="image-score">
+                    {difficulty === 'easy' ? (
+                        <img src={easy} alt={difficulty} />
+                    ) : difficulty === 'medium' ? (
+                        <img src={medium} alt={difficulty} />
+                    ) : (
+                        <img src={hard} alt={difficulty} />
+                    )}
+                </div>
             </div>
             <div className="buttons">
                 {shuffledAnswers.map((answer, index) => (
                     <button
                         key={index}
-                        className={
-                            correct_answer === answer
-                                ? 'bg-color-1'
-                                : 'bg-color-2'
-                        }
                         onClick={() => handleAnswer(answer)}
                         dangerouslySetInnerHTML={{
                             __html: answer,

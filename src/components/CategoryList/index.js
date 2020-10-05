@@ -1,26 +1,22 @@
 import React, { useEffect, memo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import './styles.css';
 
 const CategoryList = ({ categories }) => {
-    const categoryexists = useSelector((state) => state.category);
+    const categoryExists = useSelector((state) => state.category);
     const history = useHistory();
 
-    useEffect(() => {
-        console.log(categoryexists);
-    }, [categoryexists]);
+    useEffect(() => {}, [categoryExists]);
 
     function handleCategoryCheck(category) {
-        if (categoryexists.length > 0) {
-            let filtered = categoryexists.some((item) => {
-                return item == category;
+        if (categoryExists.length > 0) {
+            let filtered = categoryExists.some((item) => {
+                return item.id == category;
             });
-            console.log('aqeui' + filtered);
             if (filtered === true) {
-                console.log('existe' + filtered + ':' + category);
                 history.push(`/score/${category}`);
             } else {
-                console.log('n existe' + filtered + ':' + category);
                 history.push(`/category/${category}`);
             }
         } else {
@@ -30,18 +26,21 @@ const CategoryList = ({ categories }) => {
     }
 
     return (
-        <ul>
-            {categories.map((category) => (
-                <li
-                    key={category.id}
-                    onClick={() => {
-                        handleCategoryCheck(category.id);
-                    }}
-                >
-                    {category.name}
-                </li>
-            ))}
-        </ul>
+        <div className="categories">
+            <h1>Categories</h1>
+            <ul>
+                {categories.map((category) => (
+                    <li
+                        key={category.id}
+                        onClick={() => {
+                            handleCategoryCheck(category.id);
+                        }}
+                    >
+                        {category.name}
+                    </li>
+                ))}
+            </ul>
+        </div>
     );
 };
 

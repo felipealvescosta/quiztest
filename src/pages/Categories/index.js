@@ -1,14 +1,16 @@
 import React, { useEffect, useState, memo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import randtoken from 'rand-token';
 
 import api from '../../service/api';
 
 import CategoryList from '../../components/CategoryList';
+import Header from '../../components/Header/index';
+
+import './styles.css';
 
 const Categories = () => {
     const [categories, setCategories] = useState([]);
-    const dispatch = useDispatch();
     const categoriesDone = useSelector((state) => state.category);
 
     useEffect(() => {
@@ -24,10 +26,6 @@ const Categories = () => {
     function checkToken() {
         let token = localStorage.getItem('@token/webtest');
         if (token) {
-            dispatch({
-                type: 'READ_TOKEN',
-                token,
-            });
             return token;
         } else {
             createToken();
@@ -39,19 +37,16 @@ const Categories = () => {
         let token = randtoken.generate(16);
         if (token) {
             localStorage.setItem('@token/webtest', token);
-            dispatch({
-                type: 'CREATE_TOKEN',
-                token,
-            });
+            return token;
         }
-
-        return token;
     }
 
     return (
         <>
-            <h1>Categories</h1>
-            <CategoryList categories={categories} />
+            <div className="container">
+                <Header />
+                <CategoryList categories={categories} />
+            </div>
         </>
     );
 };
