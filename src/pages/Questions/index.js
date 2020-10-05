@@ -18,7 +18,6 @@ const Questions = () => {
     const [nextQuestion, setNextQuestion] = useState(0);
     const [difficulty, setDifficulty] = useState('medium');
     const [difficultyCount, setDifficultyCount] = useState(1);
-    const [open, setOpen] = useState(false);
     const [score, setScore] = useState({
         easy: {
             correct: 0,
@@ -58,10 +57,9 @@ const Questions = () => {
                     history.push('/');
                 });
         }
-        setOpen(false);
     }, []);
 
-    function handleAnswer(answer) {
+    async function handleAnswer(answer) {
         let is_correct = true;
 
         if (answer === questions[0].correct_answer) {
@@ -83,6 +81,7 @@ const Questions = () => {
         scoreCounter(is_correct);
 
         if (nextQuestion === 1) {
+            await timeout(1000);
             addCategory(category);
             history.push(`/score/${category}`);
         } else {
@@ -91,8 +90,8 @@ const Questions = () => {
     }
 
     function nextAnswer() {
-        console.log(nextQuestion, open);
-        setOpen(true);
+        console.log(nextQuestion);
+
         setNextQuestion((oldState) => oldState + 1);
     }
 
@@ -152,6 +151,10 @@ const Questions = () => {
         }
     }
 
+    function timeout(delay) {
+        return new Promise((res) => setTimeout(res, delay));
+    }
+
     function addCategory(category) {
         dispatch({
             type: 'ADD_CATEGORY',
@@ -167,7 +170,6 @@ const Questions = () => {
                 data={questions[0]}
                 handleAnswer={handleAnswer}
             />
-            {open && <Modal />}
         </div>
     ) : (
         <div className="loading">

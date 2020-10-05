@@ -1,18 +1,13 @@
 .header {
-    height: 120px;
+    height: 80px;
     background-color: var(--color-primary);
     color: var(--color-text-white);
 }
 
-.header img {
-    float: center;
-    padding: 12px;
-    height: 70px;
-}
-
-.header-left {
+.header h1 {
     float: center;
     color: white;
+    margin-top: 10px;
     padding: 10px 10px;
 }
 
