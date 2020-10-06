@@ -52,19 +52,22 @@ To get a local copy up and running follow these simple steps.
 git clone https://github.com/felipealvescosta/quiztest
 ```
 
-2. Install packages
+2. Open the .env.example file, update to .env and paste the firebase credentials.
+   Save, and proceed to the next step.
+
+3. Install packages
 
 ```sh
 yarn install
 ```
 
-3. Run Project
+4. Run Project
 
 ```sh
 yarn start
 ```
 
-4. Run Tests
+5. Run Tests
 
 ```sh
 yarn jest
