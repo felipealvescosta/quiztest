@@ -32,11 +32,13 @@
 
 ### Built With
 
--   [ReactJS](https://pt-br.reactjs.org/)
--   [React Router Dom](https://reactrouter.com/)
--   [Immer](https://immerjs.github.io/immer/docs/introduction)
--   [Firebase](http://firebase.google.com/)
--   [Axios](https://github.com/axios/axios)
+-   [ReactJS - v.13.13.1](https://pt-br.reactjs.org/)
+-   [React Router Dom - v.5.2.0 ](https://reactrouter.com/)
+-   [Immer - v.7.0.9](https://immerjs.github.io/immer/docs/introduction)
+-   [Firebase - v.7.21.1](http://firebase.google.com/)
+-   [Axios - v.0.20.0](https://github.com/axios/axios)
+-   [Redux - v.4.0.5](https://redux.js.org/)
+-   [React-Modal - v.3.11.2](https://www.npmjs.com/package/react-modal#api-documentations)
 
 ## Getting Started
 
@@ -47,7 +49,7 @@ To get a local copy up and running follow these simple steps.
 1. Clone the repo
 
 ```sh
-git clone https://github.com/felipealvescosta/delly-whats.git
+git clone https://github.com/felipealvescosta/quiztest
 ```
 
 2. Install packages
