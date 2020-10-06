@@ -2,6 +2,10 @@ import React, { useEffect, useState, memo } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import Header from '../../components/Header';
+
+import './styles.css';
+
 function Score() {
     const scores = useSelector((state) => state.category);
     const [scoreBoard, setScoreBoard] = useState([]);
@@ -13,26 +17,40 @@ function Score() {
         if (scores.length === 0) {
             history.push('/');
         }
+        // eslint-disable-next-line
     }, [scores]);
 
     useEffect(() => {
         function loadScore(id) {
             let score = scores.find((item) => {
-                console.log('aquiiiisdd' + item.id);
                 return item.id === id;
             });
             setScoreBoard(score);
         }
         loadScore(id);
+        // eslint-disable-next-line
     }, [id]);
 
     console.log(scoreBoard);
     return (
-        <>
+        <div className="container">
+            <Header />
             <h1>Quiz Finished</h1>
             <div>
                 <h3>Score</h3>
                 <div>
+                    <b>
+                        Corrects: {scoreBoard?.score?.points?.correct}
+                    </b>
+                </div>
+                <div>
+                    <b>
+                        Inorrects:
+                        {scoreBoard?.score?.points?.incorrect}
+                    </b>
+                </div>
+
+                <div className="score">
                     <h4>Questions Level:</h4>
                     <div>
                         <b>Easy</b>
@@ -71,8 +89,10 @@ function Score() {
                     </div>
                 </div>
             </div>
-            <Link to="/">New Quiz</Link>
-        </>
+            <Link to="/" className="button">
+                New Quiz
+            </Link>
+        </div>
     );
 }
 

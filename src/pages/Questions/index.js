@@ -18,7 +18,15 @@ const Questions = () => {
     const [nextQuestion, setNextQuestion] = useState(0);
     const [difficulty, setDifficulty] = useState('medium');
     const [difficultyCount, setDifficultyCount] = useState(1);
+    const [modal, setModal] = useState({
+        open: false,
+        isCorrect: null,
+    });
     const [score, setScore] = useState({
+        points: {
+            correct: 0,
+            incorrect: 0,
+        },
         easy: {
             correct: 0,
             incorrect: 0,
@@ -57,56 +65,51 @@ const Questions = () => {
                     history.push('/');
                 });
         }
-    }, []);
+        // eslint-disable-next-line
+    }, [nextQuestion]);
 
-    async function handleAnswer(answer) {
-        let is_correct = true;
+    const handleAnswer = (answer) => {
+        let isCorrect = true;
 
-        if (answer === questions[0].correct_answer) {
+        if (answer === questions[0]?.correct_answer) {
             setDifficultyCount(difficultyCount + 1);
-            saveQuestion(answer, is_correct);
+            saveQuestion(answer, isCorrect);
             if (difficultyCount === 2) {
                 setDifficultyCount(1);
                 changeDifficultyUp();
             }
         } else {
             setDifficultyCount(difficultyCount - 1);
-            is_correct = false;
-            saveQuestion(answer, is_correct);
+            isCorrect = false;
+            saveQuestion(answer, isCorrect);
             if (difficultyCount === 0) {
                 setDifficultyCount(1);
                 changeDifficultyDown();
             }
         }
-        scoreCounter(is_correct);
+        scoreCounter(isCorrect);
 
-        if (nextQuestion === 1) {
-            await timeout(1000);
-            addCategory(category);
-            history.push(`/score/${category}`);
-        } else {
-            nextAnswer();
-        }
-    }
+        setModal({ open: true, isCorrect });
+    };
 
-    function nextAnswer() {
-        console.log(nextQuestion);
-
+    const nextAnswer = () => {
         setNextQuestion((oldState) => oldState + 1);
-    }
+    };
 
-    function scoreCounter(is_correct) {
+    const scoreCounter = (is_correct) => {
         let countscore = score;
         if (is_correct === true) {
             countscore[difficulty].correct++;
+            countscore.points.correct++;
             setScore(countscore);
         } else {
             countscore[difficulty].incorrect++;
+            countscore.points.incorrect++;
             setScore(countscore);
         }
-    }
+    };
 
-    function saveQuestion(answer, is_correct) {
+    const saveQuestion = (answer, is_correct) => {
         let correct_answer = questions[0].correct_answer;
         firebase
             .database()
@@ -121,9 +124,9 @@ const Questions = () => {
                 difficulty,
                 date: format(new Date(), 'dd/MM/yyyy H:m:s'),
             });
-    }
+    };
 
-    function changeDifficultyUp() {
+    const changeDifficultyUp = () => {
         switch (difficulty) {
             case 'easy':
                 setDifficulty('medium');
@@ -135,9 +138,9 @@ const Questions = () => {
                 setDifficulty(difficulty);
                 break;
         }
-    }
+    };
 
-    function changeDifficultyDown() {
+    const changeDifficultyDown = () => {
         switch (difficulty) {
             case 'hard':
                 setDifficulty('medium');
@@ -149,18 +152,27 @@ const Questions = () => {
                 setDifficulty(difficulty);
                 break;
         }
-    }
+    };
 
-    function timeout(delay) {
-        return new Promise((res) => setTimeout(res, delay));
-    }
+    const handleCloseModal = () => {
+        setModal({
+            open: false,
+        });
 
-    function addCategory(category) {
+        if (nextQuestion === 9) {
+            addCategory(category);
+            history.push(`/score/${category}`);
+        } else {
+            nextAnswer();
+        }
+    };
+
+    const addCategory = (category) => {
         dispatch({
             type: 'ADD_CATEGORY',
             category: { id: category, score },
         });
-    }
+    };
 
     return questions.length > 0 ? (
         <div className="container">
@@ -169,6 +181,12 @@ const Questions = () => {
             <Question
                 data={questions[0]}
                 handleAnswer={handleAnswer}
+            />
+
+            <Modal
+                open={modal.open}
+                isCorrect={modal.isCorrect}
+                onClose={handleCloseModal}
             />
         </div>
     ) : (

@@ -21,6 +21,7 @@ const Categories = () => {
 
     useEffect(() => {
         checkToken();
+        // eslint-disable-next-line
     }, []);
 
     function checkToken() {

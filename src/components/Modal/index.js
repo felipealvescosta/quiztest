@@ -1,14 +1,30 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { memo } from 'react';
 import Modal from 'react-modal';
 
-import Loading from '../../assets/images/loading.gif';
+import Correct from '../../assets/images/correct.png';
+import Incorrect from '../../assets/images/incorrect.png';
 
-const ShowModal = () => {
-    const [open, setOpen] = useState(true);
+import './styles.css';
+const ShowModal = ({ open = false, isCorrect, onClose }) => {
     return (
-        <Modal isOpen={open}>
-            <img src={Loading} alt="Loading" />
-            <button onClick={() => setOpen(false)}>Next</button>
+        <Modal isOpen={open} className="content">
+            <div className="message">
+                {isCorrect ? (
+                    <div>
+                        <img src={Correct} alt="Correct" />
+                        <strong>
+                            Correct question, congratulations!
+                        </strong>
+                    </div>
+                ) : (
+                    <div>
+                        <img src={Incorrect} alt="Incorrect" />
+                        <strong>Incorrect question! </strong>
+                    </div>
+                )}
+
+                <button onClick={onClose}>Next</button>
+            </div>
         </Modal>
     );
 };

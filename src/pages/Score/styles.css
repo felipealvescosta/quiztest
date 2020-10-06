@@ -1,0 +1,17 @@
+.container .score ul li {
+    list-style: none;
+}
+.container .button {
+    margin-top: 20px;
+    background-color: #143266;
+    border-radius: 11px;
+    border: 1px solid #0e266e;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 17px;
+    padding: 21px 63px;
+    text-decoration: none;
+    margin: 40px;
+}
