@@ -1,13 +1,13 @@
 import firebase from 'firebase';
 
 let firebaseConfig = {
-    apiKey: 'AIzaSyDRR2TNj8NxGcQ6BjJWjGOnHVZxF2kGb64',
-    authDomain: 'quiz-sas.firebaseapp.com',
-    databaseURL: 'https://quiz-sas.firebaseio.com',
-    projectId: 'quiz-sas',
-    storageBucket: 'quiz-sas.appspot.com',
-    messagingSenderId: '624254837221',
-    appId: '1:624254837221:web:d0a321e07f2184d8778f0c',
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    databaseURL: process.env.REACT_APP_DATABASE_URL,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGIN_RENDER_ID,
+    appId: process.env.REACT_APP_APP_ID,
 };
 
 firebase.initializeApp(firebaseConfig);
