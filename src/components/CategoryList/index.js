@@ -12,7 +12,7 @@ const CategoryList = ({ categories }) => {
     function handleCategoryCheck(category) {
         if (categoryExists.length > 0) {
             let filtered = categoryExists.some((item) => {
-                return item.id === category;
+                return item.id == category;
             });
             if (filtered === true) {
                 history.push(`/score/${category}`);

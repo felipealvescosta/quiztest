@@ -23,10 +23,6 @@ const Questions = () => {
         isCorrect: null,
     });
     const [score, setScore] = useState({
-        points: {
-            correct: 0,
-            incorrect: 0,
-        },
         easy: {
             correct: 0,
             incorrect: 0,
@@ -36,6 +32,10 @@ const Questions = () => {
             incorrect: 0,
         },
         hard: {
+            correct: 0,
+            incorrect: 0,
+        },
+        points: {
             correct: 0,
             incorrect: 0,
         },
