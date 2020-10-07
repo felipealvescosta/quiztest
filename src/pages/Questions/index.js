@@ -159,7 +159,7 @@ const Questions = () => {
             open: false,
         });
 
-        if (nextQuestion === 9) {
+        if (nextQuestion === 1) {
             addCategory(category);
             history.push(`/score/${category}`);
         } else {

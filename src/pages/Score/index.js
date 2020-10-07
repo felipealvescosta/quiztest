@@ -3,6 +3,7 @@ import { Link, useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import Header from '../../components/Header';
+import Feedback from '../../components/ShowScore';
 
 import './styles.css';
 
@@ -89,6 +90,7 @@ function Score() {
                     </div>
                 </div>
             </div>
+            <Feedback category={id} />
             <Link to="/" className="button">
                 New Quiz
             </Link>
