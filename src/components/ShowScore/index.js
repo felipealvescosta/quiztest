@@ -1,8 +1,7 @@
 import React, { useEffect, useState, memo } from 'react';
-import { Link } from 'react-router-dom';
 import firebase from '../../service/firebase';
 
-function ShowScore() {
+function ShowScore({ category }) {
     const [token, setToken] = useState();
     const [answers, setAnswers] = useState([]);
 
@@ -22,12 +21,30 @@ function ShowScore() {
                     });
             });
     }, []);
-
+    console.log('aqio' + answers?.token?.category);
     return (
         <div>
-            <h1>Quiz Finally</h1>
+            <h3>Feedback</h3>
 
-            <Link to="/"> Home</Link>
+            <table>
+                <thead>
+                    <th>id</th>
+                    <th>Your Answer</th>
+                    <th>Correct Answer</th>
+                    <th>Difficulty</th>
+                    <th>Is Correct</th>
+                    <th>Date</th>
+                </thead>
+                <tbody>
+                    {Object.keys(answers).map((answer) => {
+                        return (
+                            <tr>
+                                <td>{answer?.token}</td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
         </div>
     );
 }
