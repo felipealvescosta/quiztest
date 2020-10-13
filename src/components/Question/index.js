@@ -15,10 +15,8 @@ const Question = ({
         category,
     },
 }) => {
-    const shuffledAnswers = [
-        correct_answer,
-        ...incorrect_answers,
-    ].sort(() => Math.random() - 0.5);
+    const shuffledAnswers = [correct_answer,...incorrect_answers,].sort(() => Math.random() - 0.5);
+
     console.log(correct_answer);
     return (
         <>

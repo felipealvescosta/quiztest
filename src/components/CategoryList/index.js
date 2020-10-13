@@ -12,6 +12,7 @@ const CategoryList = ({ categories }) => {
     function handleCategoryCheck(category) {
         if (categoryExists.length > 0) {
             let filtered = categoryExists.some((item) => {
+                 // eslint-disable-next-line
                 return item.id == category;
             });
             if (filtered === true) {

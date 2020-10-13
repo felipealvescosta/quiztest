@@ -5,6 +5,7 @@ function ShowScore({ category }) {
     const [token, setToken] = useState();
     const [answers, setAnswers] = useState([]);
 
+
     useEffect(() => {
         function loadToken() {
             setToken(localStorage.getItem('@token/webtest'));
@@ -20,8 +21,13 @@ function ShowScore({ category }) {
                         ...snapshot.val(),
                     });
             });
+
     }, []);
-    console.log('aqio' + answers?.token?.category);
+
+
+
+
+
     return (
         <div>
             <h3>Feedback</h3>
@@ -36,13 +42,7 @@ function ShowScore({ category }) {
                     <th>Date</th>
                 </thead>
                 <tbody>
-                    {Object.keys(answers).map((answer) => {
-                        return (
-                            <tr>
-                                <td>{answer?.token}</td>
-                            </tr>
-                        );
-                    })}
+
                 </tbody>
             </table>
         </div>
